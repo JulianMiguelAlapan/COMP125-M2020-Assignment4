@@ -9,19 +9,29 @@ Description:Slot Machine
     // Function Scoped Variables
     let stage: createjs.Stage;
 
+    // This function triggers after everything has been preloaded
+    // This function is used for config and initialization
     function Start():void
     {
+        console.log("App Started...");
         let canvas = document.getElementById("canvas") as HTMLCanvasElement;
         let stage = new createjs.Stage(canvas)
         createjs.Ticker.framerate = 60; // 60 FPS or 16.667 ms
         createjs.Ticker.on("tick", Update);
 
-        console.log("App Started...");
+        Main();
     }
 
+    // called every fram
     function Update():void
     {
         stage.update();
+    }
+
+    // app logic goes here
+    function Main():void
+    {
+
     }
 
     window.addEventListener("load", Start);
