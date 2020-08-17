@@ -4,5 +4,11 @@
   "main": "index.js",
   "repository": "https://github.com/JulianMiguelAlapan/COMP125-M2020-Assignment4.git",
   "author": "Julian Miguel Alapan <jalapan1@my.centennialcollege.ca>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "easeljs": "^1.0.2",
+    "preloadjs": "^1.0.1",
+    "soundjs": "^1.0.1",
+    "tweenjs": "^1.0.2"
+  }
 }
