@@ -1,0 +1,8 @@
+{
+  "name": "comp125-m2020-assignment4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JulianMiguelAlapan/COMP125-M2020-Assignment4.git",
+  "author": "Julian Miguel Alapan <jalapan1@my.centennialcollege.ca>",
+  "license": "MIT"
+}
