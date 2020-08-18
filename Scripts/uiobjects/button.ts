@@ -32,12 +32,27 @@ module UIObjects
 
             this.x = x;
             this.y = y;
+
+            // mouse events
+            this.on("mouseover", this.m_mouseOver);
+    
+            this.on("mouseout", this.m_mouseOut);
         }
         // PRIVATE METHOD(S)
         private m_recalculateSize():void
         {
             this.regX = this.getBounds().width * 0.5;
             this.regY = this.getBounds().height * 0.5;
+        }
+
+        private m_mouseOver():void
+        {
+            this.alpha = 0.7; // 70% opaque - 30% transparent
+        }
+
+        private m_mouseOut():void
+        {
+            this.alpha = 1.0; // 100% opaque - 0% transparent
         }
 
         // PUBLIC METHOD(S)
