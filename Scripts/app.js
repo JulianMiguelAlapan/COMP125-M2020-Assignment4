@@ -18,11 +18,29 @@ Description:Slot Machine
     let creditLabel;
     let winningLabel;
     let betLabel;
+    let manifest = [
+        { id: "background", src: "./Assets/images/background.png" },
+        { id: "banana", src: "./Assets/images/banana.gif" },
+        { id: "bar", src: "./Assets/images/bar.gif" },
+        { id: "bell", src: "./Assets/images/bell.gif" },
+        { id: "bet_line", src: "./Assets/images/bet_line.gif" },
+        { id: "bet1Button", src: "./Assets/images/bet1Button.png" },
+        { id: "bet10Button", src: "./Assets/images/bet10Button.png" },
+        { id: "bet100Button", src: "./Assets/images/bet100Button.png" },
+        { id: "betMaxButton", src: "./Assets/images/betMaxButton.png" },
+        { id: "blank", src: "./Assets/images/blank.gif" },
+        { id: "cherry", src: "./Assets/images/cherry.gif" },
+        { id: "grapes", src: "./Assets/images/grapes.gif" },
+        { id: "orange", src: "./Assets/images/orange.gif" },
+        { id: "seven", src: "./Assets/images/seven.gif" },
+        { id: "spinButton", src: "./Assets/images/spinButton.png" },
+    ];
     // This function triggers first and "Preloads" all the assets
     function Preload() {
         assets = new createjs.LoadQueue();
         assets.installPlugin(createjs.Sound);
         assets.on("complete", Start);
+        assets.loadManifest(manifest);
     }
     // This function triggers after everything has been preloaded
     // This function is used for config and initialization
