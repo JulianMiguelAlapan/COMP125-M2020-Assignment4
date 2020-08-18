@@ -8,6 +8,13 @@ Description:Slot Machine
 (function () {
     // Function Scoped Variables
     var stage;
+    var assets;
+    // This function triggers first and "Preloads" all the assets
+    function Preload() {
+        assets = new createjs.LoadQueue();
+        assets.installPlugin(createjs.Sound);
+        assets.on("complete", Start);
+    }
     // This function triggers after everything has been preloaded
     // This function is used for config and initialization
     function Start() {
@@ -16,6 +23,7 @@ Description:Slot Machine
         var stage = new createjs.Stage(canvas);
         createjs.Ticker.framerate = 60; // 60 FPS or 16.667 ms
         createjs.Ticker.on("tick", Update);
+        stage.enableMouseOver(20);
         Main();
     }
     // called every fram
@@ -25,6 +33,6 @@ Description:Slot Machine
     // app logic goes here
     function Main() {
     }
-    window.addEventListener("load", Start);
+    window.addEventListener("load", Preload);
 })();
 //# sourceMappingURL=app.js.map
