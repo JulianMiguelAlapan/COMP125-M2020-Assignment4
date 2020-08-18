@@ -3,7 +3,6 @@ module UIObjects
     export class Button extends Core.GameObject
     {
         // PRIVATE FIELDS (CLASS MEMBERS)
-        
 
         // PUBLIC PROPERTIES
         
