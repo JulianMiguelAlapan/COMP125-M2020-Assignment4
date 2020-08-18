@@ -9,6 +9,7 @@ Description:Slot Machine
     // Function Scoped Variables
     let stage: createjs.Stage;
     let assets: createjs.LoadQueue;
+    let slotMachineBackground: Core.GameObject;
     let spinButton: UIObjects.Button;
     let bet1Button: UIObjects.Button;
     let bet10Button: UIObjects.Button;
@@ -70,10 +71,17 @@ Description:Slot Machine
         stage.update();
     }
 
+    function buildInterface():void
+    {
+        // Slot Machine Background
+        slotMachineBackground = new Core.GameObject("background", 120, 240, true );
+        stage.addChild(slotMachineBackground);
+    }
+
     // app logic goes here
     function Main():void
     {
-
+        buildInterface();
     }
 
     window.addEventListener("load", Preload);
