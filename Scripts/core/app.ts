@@ -23,6 +23,16 @@ Description:Slot Machine
     let middleReel: Core.GameObject;
     let rightReel: Core.GameObject;
     let betLine: Core.GameObject;
+
+    // symbol tallies
+    let grapes = 0;
+    let bananas = 0;
+    let oranges = 0;
+    let cherries = 0;
+    let bars = 0;
+    let bells = 0;
+    let sevens = 0;
+    let blanks = 0;
     
     let manifest: Core.Item[] = [
         {id:"background", src:"./Assets/images/background.png"},
@@ -75,6 +85,63 @@ Description:Slot Machine
         stage.update();
     }
 
+    /* Utility function to check if a value falls within a range of bounds */
+    function checkRange(value:number, lowerBounds:number, upperBounds:number):number | boolean {
+        if (value >= lowerBounds && value <= upperBounds)
+        {
+            return value;
+        }
+        else {
+            return !value;
+        }
+    }
+
+    /* When this function is called it determines the betLine results.
+    e.g. Bar - Orange - Banana */
+    function Reels():string[] {
+        var betLine = [" ", " ", " "];
+        var outCome = [0, 0, 0];
+
+        for (var spin = 0; spin < 3; spin++) {
+            outCome[spin] = Math.floor((Math.random() * 65) + 1);
+            switch (outCome[spin]) {
+                case checkRange(outCome[spin], 1, 27):  // 41.5% probability
+                    betLine[spin] = "blank";
+                    blanks++;
+                    break;
+                case checkRange(outCome[spin], 28, 37): // 15.4% probability
+                    betLine[spin] = "grapes";
+                    grapes++;
+                    break;
+                case checkRange(outCome[spin], 38, 46): // 13.8% probability
+                    betLine[spin] = "banana";
+                    bananas++;
+                    break;
+                case checkRange(outCome[spin], 47, 54): // 12.3% probability
+                    betLine[spin] = "orange";
+                    oranges++;
+                    break;
+                case checkRange(outCome[spin], 55, 59): //  7.7% probability
+                    betLine[spin] = "cherry";
+                    cherries++;
+                    break;
+                case checkRange(outCome[spin], 60, 62): //  4.6% probability
+                    betLine[spin] = "bar";
+                    bars++;
+                    break;
+                case checkRange(outCome[spin], 63, 64): //  3.1% probability
+                    betLine[spin] = "bell";
+                    bells++;
+                    break;
+                case checkRange(outCome[spin], 65, 65): //  1.5% probability
+                    betLine[spin] = "seven";
+                    sevens++;
+                    break;
+            }
+        }
+        return betLine;
+    }
+
     function buildInterface():void
     {
         // Slot Machine Background
@@ -125,10 +192,42 @@ Description:Slot Machine
         stage.addChild(betLine);
     }
 
+    function interfaceLogic():void
+    {
+        spinButton.on("click", ()=>{
+
+            // reel test
+            let reels = Reels();
+
+            // example of how to replace the images in the reels
+            leftReel.image = assets.getResult(reels[0]) as HTMLImageElement;
+            middleReel.image = assets.getResult(reels[1]) as HTMLImageElement;
+            rightReel.image = assets.getResult(reels[2]) as HTMLImageElement;
+        });
+
+        bet1Button.on("click", ()=>{
+            console.log("bet1Button Button Clicked");
+        });
+
+        bet10Button.on("click", ()=>{
+            console.log("bet10Button Button Clicked");
+        });
+
+        bet100Button.on("click", ()=>{
+            console.log("bet100Button Button Clicked");
+        });
+
+        betMaxButton.on("click", ()=>{
+            console.log("betMaxButton Button Clicked");
+        });
+    }
+
     // app logic goes here
     function Main():void
     {
         buildInterface();
+
+        interfaceLogic();
     }
 
     window.addEventListener("load", Preload);
