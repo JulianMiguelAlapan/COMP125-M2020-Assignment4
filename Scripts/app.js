@@ -9,6 +9,14 @@ Description:Slot Machine
     // Function Scoped Variables
     let stage;
     let assets;
+    let spinButton;
+    let bet1Button;
+    let bet10Button;
+    let bet100Button;
+    let betMaxButton;
+    let jackPotLabel;
+    let creditLabel;
+    let winningLabel;
     let betLabel;
     // This function triggers first and "Preloads" all the assets
     function Preload() {

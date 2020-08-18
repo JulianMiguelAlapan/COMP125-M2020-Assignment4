@@ -9,6 +9,14 @@ Description:Slot Machine
     // Function Scoped Variables
     let stage: createjs.Stage;
     let assets: createjs.LoadQueue;
+    let spinButton: UIObjects.Button;
+    let bet1Button: UIObjects.Button;
+    let bet10Button: UIObjects.Button;
+    let bet100Button: UIObjects.Button;
+    let betMaxButton: UIObjects.Button;
+    let jackPotLabel: UIObjects.Label;
+    let creditLabel: UIObjects.Label;
+    let winningLabel: UIObjects.Label;
     let betLabel: UIObjects.Label;
     
 
