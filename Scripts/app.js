@@ -9,6 +9,7 @@ Description:Slot Machine
     // Function Scoped Variables
     let stage;
     let assets;
+    let betLabel;
     // This function triggers first and "Preloads" all the assets
     function Preload() {
         assets = new createjs.LoadQueue();
