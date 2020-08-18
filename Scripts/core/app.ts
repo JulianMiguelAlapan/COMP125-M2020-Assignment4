@@ -19,7 +19,7 @@ Description:Slot Machine
     let winningLabel: UIObjects.Label;
     let betLabel: UIObjects.Label;
     
-    let manifest = [
+    let manifest: Core.Item[] = [
         {id:"background", src:"./Assets/images/background.png"},
         {id:"banana", src:"./Assets/images/banana.gif"},
         {id:"bar", src:"./Assets/images/bar.gif"},
