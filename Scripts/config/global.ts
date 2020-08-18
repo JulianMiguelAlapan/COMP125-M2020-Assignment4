@@ -2,6 +2,6 @@ module Config
 {
     export class Globals
     {
-        public static AssestManifest:createjs.LoadQueue;
+        public static AssetManifest:createjs.LoadQueue;
     }
 }

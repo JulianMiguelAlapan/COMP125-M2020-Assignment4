@@ -59,7 +59,7 @@ Description:Slot Machine
 
         stage.enableMouseOver(20);
 
-        Config.Globals.AssestManifest = assets;
+        Config.Globals.AssetManifest = assets;
 
         Main();
     }

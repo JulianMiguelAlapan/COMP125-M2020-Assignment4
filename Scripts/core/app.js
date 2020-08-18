@@ -51,7 +51,7 @@ Description:Slot Machine
         createjs.Ticker.framerate = 60; // 60 FPS or 16.667 ms
         createjs.Ticker.on("tick", Update);
         stage.enableMouseOver(20);
-        Config.Globals.AssestManifest = assets;
+        Config.Globals.AssetManifest = assets;
         Main();
     }
     // called every fram
