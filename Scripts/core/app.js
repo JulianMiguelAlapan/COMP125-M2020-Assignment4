@@ -15,6 +15,8 @@ Description:Slot Machine
     let bet10Button;
     let bet100Button;
     let betMaxButton;
+    let resetButton;
+    let quitButton;
     let jackPotLabel;
     let creditLabel;
     let winningsLabel;
