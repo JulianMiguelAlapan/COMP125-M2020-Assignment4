@@ -130,6 +130,7 @@ Description:Slot Machine
         playerMoney += winnings;
 
         console.log("You won: "  + winnings);
+        console.log("Your credits: "  + playerMoney);
         // Nice to have: update some kind of message label
 
         // Update winningsLabel
@@ -144,8 +145,11 @@ Description:Slot Machine
     function showLossMessage():void {
         playerMoney -= playerBet;
 
+        console.log("You lost: " + playerBet);
+        console.log("Your credits: "  + playerMoney);
+
         // Update the creditLabel
-        creditLabel.setText(winnings.toString());
+        creditLabel.setText(playerMoney.toString());
         resetFruitTally();
     }
 
@@ -345,21 +349,33 @@ Description:Slot Machine
         bet1Button.on("click", ()=>{
             playerBet += 1;
             console.log("Player Bet is: " + playerBet);
+
+            // Update betLabel
+            betLabel.setText(playerBet.toString());
         });
 
         bet10Button.on("click", ()=>{
             playerBet += 10;
             console.log("Player Bet is: " + playerBet);
+
+            // Update betLabel
+            betLabel.setText(playerBet.toString());
         });
 
         bet100Button.on("click", ()=>{
             playerBet += 100;
             console.log("Player Bet is: " + playerBet);
+
+            // Update betLabel
+            betLabel.setText(playerBet.toString());
         });
 
         betMaxButton.on("click", ()=>{
             playerBet = playerMoney;
             console.log("Player Bet is: " + playerBet);
+
+            // Update betLabel
+            betLabel.setText(playerBet.toString());
         });
     }
 
