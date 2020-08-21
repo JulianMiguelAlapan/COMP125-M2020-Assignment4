@@ -15,8 +15,6 @@ Description:Slot Machine
     let bet10Button;
     let bet100Button;
     let betMaxButton;
-    let resetButton;
-    let quitButton;
     let jackPotLabel;
     let creditLabel;
     let winningsLabel;
@@ -34,6 +32,10 @@ Description:Slot Machine
     let bells = 0;
     let sevens = 0;
     let blanks = 0;
+    let playerMoney = 1000;
+    let winnings = 0;
+    let jackpot = 5000;
+    let playerBet = 0;
     let manifest = [
         { id: "background", src: "./Assets/images/background.png" },
         { id: "banana", src: "./Assets/images/banana.gif" },
@@ -83,6 +85,47 @@ Description:Slot Machine
             return !value;
         }
     }
+    /* Utility function to reset all fruit tallies */
+    function resetFruitTally() {
+        grapes = 0;
+        bananas = 0;
+        oranges = 0;
+        cherries = 0;
+        bars = 0;
+        bells = 0;
+        sevens = 0;
+        blanks = 0;
+    }
+    /* Check to see if the player won the jackpot */
+    function checkJackPot() {
+        /* compare two random values */
+        let jackPotTry = Math.floor(Math.random() * 51 + 1);
+        let jackPotWin = Math.floor(Math.random() * 51 + 1);
+        if (jackPotTry == jackPotWin) {
+            alert("You Won the $" + jackpot + " Jackpot!!");
+            playerMoney += jackpot;
+            jackpot = 1000;
+        }
+    }
+    /* Utility function to show a win message and increase player money */
+    function showWinMessage() {
+        playerMoney += winnings;
+        console.log("You won: " + winnings);
+        // Nice to have: update some kind of message label
+        // Update winningsLabel
+        winningsLabel.setText(winnings.toString());
+        // Update the creditLabel
+        creditLabel.setText(playerMoney.toString());
+        resetFruitTally();
+        checkJackPot();
+    }
+    /* Utility function to show a loss message and reduce player money */
+    function showLossMessage() {
+        playerMoney -= playerBet;
+        // Update the creditLabel
+        creditLabel.setText(winnings.toString());
+        resetFruitTally();
+    }
     /* When this function is called it determines the betLine results.
     e.g. Bar - Orange - Banana */
     function Reels() {
@@ -127,6 +170,63 @@ Description:Slot Machine
         }
         return betLine;
     }
+    /* This function calculates the player's winnings, if any */
+    function determineWinnings() {
+        if (blanks == 0) {
+            if (grapes == 3) {
+                winnings = playerBet * 10;
+            }
+            else if (bananas == 3) {
+                winnings = playerBet * 20;
+            }
+            else if (oranges == 3) {
+                winnings = playerBet * 30;
+            }
+            else if (cherries == 3) {
+                winnings = playerBet * 40;
+            }
+            else if (bars == 3) {
+                winnings = playerBet * 50;
+            }
+            else if (bells == 3) {
+                winnings = playerBet * 75;
+            }
+            else if (sevens == 3) {
+                winnings = playerBet * 100;
+            }
+            else if (grapes == 2) {
+                winnings = playerBet * 2;
+            }
+            else if (bananas == 2) {
+                winnings = playerBet * 2;
+            }
+            else if (oranges == 2) {
+                winnings = playerBet * 3;
+            }
+            else if (cherries == 2) {
+                winnings = playerBet * 4;
+            }
+            else if (bars == 2) {
+                winnings = playerBet * 5;
+            }
+            else if (bells == 2) {
+                winnings = playerBet * 10;
+            }
+            else if (sevens == 2) {
+                winnings = playerBet * 20;
+            }
+            else if (sevens == 1) {
+                winnings = playerBet * 5;
+            }
+            else {
+                winnings = playerBet * 1;
+            }
+            showWinMessage();
+        }
+        else {
+            showLossMessage();
+        }
+    }
     function buildInterface() {
         // Slot Machine Background
         slotMachineBackground = new Core.GameObject("background", Config.Screen.CENTER_X, Config.Screen.CENTER_Y, true);
@@ -162,31 +262,53 @@ Description:Slot Machine
         betLine = new Core.GameObject("bet_line", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 12, true);
         stage.addChild(betLine);
     }
+    function resetInterface() {
+        jackPotLabel.setText(jackpot.toString());
+        winningsLabel.setText("0");
+        creditLabel.setText(playerMoney.toString());
+        betLabel.setText("0");
+        leftReel.image = assets.getResult("blank");
+        middleReel.image = assets.getResult("blank");
+        rightReel.image = assets.getResult("blank");
+    }
     function interfaceLogic() {
         spinButton.on("click", () => {
+            // Clear the winningsLabel
+            winningsLabel.setText("0");
+            // Clear winnings variable
+            winnings = 0;
+            // Check if we can spin the reels based on the availability of player money
+            // if playerMoney > 0 then check that playerBet <= playerMoney
+            // if not don't let the player spin
             // reel test
             let reels = Reels();
             // example of how to replace the images in the reels
             leftReel.image = assets.getResult(reels[0]);
             middleReel.image = assets.getResult(reels[1]);
             rightReel.image = assets.getResult(reels[2]);
+            determineWinnings();
         });
         bet1Button.on("click", () => {
-            console.log("bet1Button Button Clicked");
+            playerBet += 1;
+            console.log("Player Bet is: " + playerBet);
         });
         bet10Button.on("click", () => {
-            console.log("bet10Button Button Clicked");
+            playerBet += 10;
+            console.log("Player Bet is: " + playerBet);
         });
         bet100Button.on("click", () => {
-            console.log("bet100Button Button Clicked");
+            playerBet += 100;
+            console.log("Player Bet is: " + playerBet);
         });
         betMaxButton.on("click", () => {
-            console.log("betMaxButton Button Clicked");
+            playerBet = playerMoney;
+            console.log("Player Bet is: " + playerBet);
         });
     }
     // app logic goes here
     function Main() {
         buildInterface();
+        resetInterface();
         interfaceLogic();
     }
     window.addEventListener("load", Preload);
