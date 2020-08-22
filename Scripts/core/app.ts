@@ -15,10 +15,14 @@ Description:Slot Machine
     let bet10Button: UIObjects.Button;
     let bet100Button: UIObjects.Button;
     let betMaxButton: UIObjects.Button;
+    let resetButton: UIObjects.Button;
+    let quitButton: UIObjects.Button;
     let jackPotLabel: UIObjects.Label;
     let creditLabel: UIObjects.Label;
     let winningsLabel: UIObjects.Label;
     let betLabel: UIObjects.Label;
+    let errorMessageLabel: UIObjects.Label;
+    let jackpotMessageLabel: UIObjects.Label;
     let leftReel: Core.GameObject;
     let middleReel: Core.GameObject;
     let rightReel: Core.GameObject;
@@ -34,7 +38,7 @@ Description:Slot Machine
     let sevens = 0;
     let blanks = 0;
     
-    let playerMoney = 1000;
+    let playerCredits = 1000;
     let winnings = 0;
     let jackpot = 5000;
     let playerBet = 0;
@@ -53,6 +57,8 @@ Description:Slot Machine
         {id:"cherry", src:"./Assets/images/cherry.gif"},
         {id:"grapes", src:"./Assets/images/grapes.gif"},
         {id:"orange", src:"./Assets/images/orange.gif"},
+        {id:"quitButton", src:"./Assets/images/quitButton.png"},
+        {id:"resetButton", src:"./Assets/images/resetButton.png"},
         {id:"seven", src:"./Assets/images/seven.gif"},
         {id:"spinButton", src:"./Assets/images/spinButton.png"},
     ]
@@ -113,6 +119,14 @@ Description:Slot Machine
         blanks = 0;
     }
 
+    /* Utility function to reset the player stats */
+    function resetAll():void {
+        playerCredits = 1000;
+        winnings = 0;
+        jackpot = 5000;
+        playerBet = 0;
+    }
+
     /* Check to see if the player won the jackpot */
     function checkJackPot():void {
         /* compare two random values */
@@ -120,36 +134,36 @@ Description:Slot Machine
         let jackPotWin = Math.floor(Math.random() * 51 + 1);
         if (jackPotTry == jackPotWin) {
             alert("You Won the $" + jackpot + " Jackpot!!");
-            playerMoney += jackpot;
+            playerCredits += jackpot;
             jackpot = 1000;
         }
     }
 
     /* Utility function to show a win message and increase player money */
     function showWinMessage():void {
-        playerMoney += winnings;
+        playerCredits += winnings;
 
         console.log("You won: "  + winnings);
-        console.log("Your credits: "  + playerMoney);
+        console.log("Your credits: "  + playerCredits);
         // Nice to have: update some kind of message label
 
         // Update winningsLabel
         winningsLabel.setText(winnings.toString());
         // Update the creditLabel
-        creditLabel.setText(playerMoney.toString());
+        creditLabel.setText(playerCredits.toString());
         resetFruitTally();
         checkJackPot();
     }
 
     /* Utility function to show a loss message and reduce player money */
     function showLossMessage():void {
-        playerMoney -= playerBet;
+        playerCredits -= playerBet;
 
         console.log("You lost: " + playerBet);
-        console.log("Your credits: "  + playerMoney);
+        console.log("Your credits: "  + playerCredits);
 
         // Update the creditLabel
-        creditLabel.setText(playerMoney.toString());
+        creditLabel.setText(playerCredits.toString());
         resetFruitTally();
     }
 
@@ -282,6 +296,12 @@ Description:Slot Machine
         betMaxButton = new UIObjects.Button("betMaxButton", Config.Screen.CENTER_X + 67, Config.Screen.CENTER_Y + 176, true);
         stage.addChild(betMaxButton);
 
+        resetButton = new UIObjects.Button("resetButton", Config.Screen.CENTER_X + 250, Config.Screen.CENTER_Y + 176, true);
+        stage.addChild(resetButton);
+
+        quitButton = new UIObjects.Button("quitButton", Config.Screen.CENTER_X - 255, Config.Screen.CENTER_Y + 176, true);
+        stage.addChild(quitButton);
+
         // Labels
         jackPotLabel = new UIObjects.Label("99999999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 175, true);
         stage.addChild(jackPotLabel);
@@ -294,6 +314,12 @@ Description:Slot Machine
 
         betLabel = new UIObjects.Label("9999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y + 108, true);
         stage.addChild(betLabel);
+
+        errorMessageLabel = new UIObjects.Label("Not Enough Credits", "30px", "Consolas", "#000000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 120, true);
+        stage.addChild(errorMessageLabel);
+
+        errorMessageLabel = new UIObjects.Label(" ", "30px", "Consolas", "#D4AF37", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 120, true);
+        stage.addChild(errorMessageLabel);
 
         // Reel GameObjects
         leftReel = new Core.GameObject("bell", Config.Screen.CENTER_X - 79, Config.Screen.CENTER_Y - 12, true);
@@ -314,7 +340,7 @@ Description:Slot Machine
     {
         jackPotLabel.setText(jackpot.toString());
         winningsLabel.setText("0");
-        creditLabel.setText(playerMoney.toString());
+        creditLabel.setText(playerCredits.toString());
         betLabel.setText("0");
 
         leftReel.image = assets.getResult("blank") as HTMLImageElement;
@@ -334,16 +360,32 @@ Description:Slot Machine
             // Check if we can spin the reels based on the availability of player money
             // if playerMoney > 0 then check that playerBet <= playerMoney
             // if not don't let the player spin
+            if (playerCredits > 0 && playerBet <= playerCredits)
+            {
+                // reel test
+                let reels = Reels();
 
-            // reel test
-            let reels = Reels();
+                // example of how to replace the images in the reels
+                leftReel.image = assets.getResult(reels[0]) as HTMLImageElement;
+                middleReel.image = assets.getResult(reels[1]) as HTMLImageElement;
+                rightReel.image = assets.getResult(reels[2]) as HTMLImageElement;
 
-            // example of how to replace the images in the reels
-            leftReel.image = assets.getResult(reels[0]) as HTMLImageElement;
-            middleReel.image = assets.getResult(reels[1]) as HTMLImageElement;
-            rightReel.image = assets.getResult(reels[2]) as HTMLImageElement;
+                determineWinnings();
 
-            determineWinnings();
+                //  Clear the betLabel
+                betLabel.setText("0");
+                // Clear player bet
+                playerBet = 0;
+            }
+            else
+            {
+                console.log("Not enough credits");
+                errorMessageLabel.setText("Not Enough Credits");
+                //  Clear the betLabel
+                betLabel.setText("0");
+                // Clear player bet
+                playerBet = 0;
+            }
         });
 
         bet1Button.on("click", ()=>{
@@ -371,12 +413,40 @@ Description:Slot Machine
         });
 
         betMaxButton.on("click", ()=>{
-            playerBet = playerMoney;
+            playerBet = playerCredits;
             console.log("Player Bet is: " + playerBet);
 
             // Update betLabel
             betLabel.setText(playerBet.toString());
         });
+
+        resetButton.on("click", ()=>{
+            console.log("Reset button clicked");
+            resetAll();
+
+            jackPotLabel.setText(jackpot.toString());
+            winningsLabel.setText("0");
+            creditLabel.setText(playerCredits.toString());
+            betLabel.setText("0");
+
+            leftReel.image = assets.getResult("blank") as HTMLImageElement;
+            middleReel.image = assets.getResult("blank") as HTMLImageElement;
+            rightReel.image = assets.getResult("blank") as HTMLImageElement;
+        })
+
+        quitButton.on("click", ()=>{
+            console.log("Quit button clicked");
+            resetAll();
+
+            jackPotLabel.setText(" ");
+            winningsLabel.setText(" ");
+            creditLabel.setText(" ");
+            betLabel.setText(" ");
+
+            leftReel.image = assets.getResult("blank") as HTMLImageElement;
+            middleReel.image = assets.getResult("blank") as HTMLImageElement;
+            rightReel.image = assets.getResult("blank") as HTMLImageElement;
+        })
     }
 
     // app logic goes here
