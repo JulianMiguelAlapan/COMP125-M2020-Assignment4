@@ -315,11 +315,11 @@ Description:Slot Machine
         betLabel = new UIObjects.Label("9999", "20px", "Consolas", "#FF0000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y + 108, true);
         stage.addChild(betLabel);
 
-        errorMessageLabel = new UIObjects.Label("Not Enough Credits", "30px", "Consolas", "#000000", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 120, true);
+        errorMessageLabel = new UIObjects.Label(" ", "30px", "Consolas", "#000000", Config.Screen.CENTER_X - 150, Config.Screen.CENTER_Y - 120, false);
         stage.addChild(errorMessageLabel);
 
-        errorMessageLabel = new UIObjects.Label(" ", "30px", "Consolas", "#D4AF37", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 120, true);
-        stage.addChild(errorMessageLabel);
+        jackpotMessageLabel = new UIObjects.Label(" ", "30px", "Consolas", "#D4AF37", Config.Screen.CENTER_X, Config.Screen.CENTER_Y - 120, true);
+        stage.addChild(jackpotMessageLabel);
 
         // Reel GameObjects
         leftReel = new Core.GameObject("bell", Config.Screen.CENTER_X - 79, Config.Screen.CENTER_Y - 12, true);
@@ -389,11 +389,21 @@ Description:Slot Machine
         });
 
         bet1Button.on("click", ()=>{
-            playerBet += 1;
-            console.log("Player Bet is: " + playerBet);
+            if (playerCredits > 0 && playerBet < playerCredits)
+            {
+                errorMessageLabel.setText("");
+                playerBet += 1;
+                console.log("Player Bet is: " + playerBet);
 
-            // Update betLabel
-            betLabel.setText(playerBet.toString());
+                // Update betLabel
+                betLabel.setText(playerBet.toString());
+            }
+            else
+            {
+                console.log("Not enough credits");
+                errorMessageLabel.setText("Not Enough Credits");
+            }
+            
         });
 
         bet10Button.on("click", ()=>{
