@@ -316,6 +316,8 @@ Description:Slot Machine
                 betLabel.setText("0");
                 // Clear player bet
                 playerBet = 0;
+                // Show jackpotLabel
+                jackPotLabel.setText(jackpot.toString());
             }
             else {
                 console.log("Not enough credits");
