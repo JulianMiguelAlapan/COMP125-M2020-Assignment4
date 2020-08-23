@@ -115,7 +115,7 @@ Description:Slot Machine
         let jackPotTry = Math.floor(Math.random() * 51 + 1);
         let jackPotWin = Math.floor(Math.random() * 51 + 1);
         if (jackPotTry == jackPotWin) {
-            alert("You Won the $" + jackpot + " Jackpot!!");
+            jackpotMessageLabel.setText("Congratulations! You Won the Jackpot!");
             playerCredits += jackpot;
             jackpot = 1000;
         }
@@ -328,7 +328,9 @@ Description:Slot Machine
         });
         bet1Button.on("click", () => {
             if (playerCredits > 0 && playerBet < playerCredits) {
+                // Makes sure that errorMessageLabel won't show
                 errorMessageLabel.setText("");
+                // Add to playerBet
                 playerBet += 1;
                 console.log("Player Bet is: " + playerBet);
                 // Update betLabel
@@ -340,22 +342,49 @@ Description:Slot Machine
             }
         });
         bet10Button.on("click", () => {
-            playerBet += 10;
-            console.log("Player Bet is: " + playerBet);
-            // Update betLabel
-            betLabel.setText(playerBet.toString());
+            if (playerCredits > 0 && playerBet < playerCredits) {
+                // Makes sure that errorMessageLabel won't show
+                errorMessageLabel.setText("");
+                // Add to playerBet
+                playerBet += 10;
+                console.log("Player Bet is: " + playerBet);
+                // Update betLabel
+                betLabel.setText(playerBet.toString());
+            }
+            else {
+                console.log("Not enough credits");
+                errorMessageLabel.setText("Not Enough Credits");
+            }
         });
         bet100Button.on("click", () => {
-            playerBet += 100;
-            console.log("Player Bet is: " + playerBet);
-            // Update betLabel
-            betLabel.setText(playerBet.toString());
+            if (playerCredits > 0 && playerBet < playerCredits) {
+                // Makes sure that errorMessageLabel won't show
+                errorMessageLabel.setText("");
+                // Add to playerBet
+                playerBet += 100;
+                console.log("Player Bet is: " + playerBet);
+                // Update betLabel
+                betLabel.setText(playerBet.toString());
+            }
+            else {
+                console.log("Not enough credits");
+                errorMessageLabel.setText("Not Enough Credits");
+            }
         });
         betMaxButton.on("click", () => {
-            playerBet = playerCredits;
-            console.log("Player Bet is: " + playerBet);
-            // Update betLabel
-            betLabel.setText(playerBet.toString());
+            if (playerCredits > 0 && playerBet < playerCredits) {
+                // Makes sure that errorMessageLabel won't show
+                errorMessageLabel.setText("");
+                // Add to playerBet
+                playerBet = playerCredits;
+                console.log("Player Bet is: " + playerBet);
+                // Update betLabel
+                betLabel.setText(playerBet.toString());
+            }
+            else {
+                console.log("Not enough credits");
+                errorMessageLabel.setText("Not Enough Credits");
+            }
         });
         resetButton.on("click", () => {
             console.log("Reset button clicked");
@@ -367,6 +396,8 @@ Description:Slot Machine
             leftReel.image = assets.getResult("blank");
             middleReel.image = assets.getResult("blank");
             rightReel.image = assets.getResult("blank");
+            // Makes sure that errorMessageLabel won't show
+            errorMessageLabel.setText("");
         });
         quitButton.on("click", () => {
             console.log("Quit button clicked");
@@ -378,6 +409,8 @@ Description:Slot Machine
             leftReel.image = assets.getResult("blank");
             middleReel.image = assets.getResult("blank");
             rightReel.image = assets.getResult("blank");
+            // Makes sure that errorMessageLabel won't show
+            errorMessageLabel.setText("");
         });
     }
     // app logic goes here
